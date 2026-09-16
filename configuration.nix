@@ -14,11 +14,11 @@ boot.loader.grub.efiSupport = true;
 boot.loader.grub.efiInstallAsRemovable = true;
 boot.loader.grub.device = "nodev";
 
-services.getty.autologinUser = "dominik";
+ # services.getty.autologinUser = "dominik";
  
 
 
-networking.hostName = "nixos";
+networking.hostName = "mainframe";
 
   networking.networkmanager.enable = true;
 

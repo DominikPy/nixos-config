@@ -18,14 +18,23 @@ home.sessionVariables = {
     	WLR_NO_HARDWARE_CURSORS = "1";
 };
 
-	wayland.windowManager.hyprland = {
-	enable = true;
-	
-		extraConfig = ''
-		dofile("/home/dominik/.config/hypr/custom.lua")
-		'';
-	};
-programs.neovim = {
+wayland.windowManager.hyprland = {
+  enable = true;
+  extraConfig = ''
+    local mod = "SUPER"
+
+    hl.bind(mod .. " + Q", hl.dsp.exec_cmd("kitty"))
+    hl.bind(mod .. " + M", function()
+        hl.exit()
+    end)
+
+    hl.on("hyprland.start", function()
+        hl.dsp.exec_cmd("waybar")
+    end)
+  '';
+};
+
+	programs.neovim = {
     enable = true;
     defaultEditor = true;
     viAlias = true;
