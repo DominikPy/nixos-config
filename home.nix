@@ -25,6 +25,7 @@
     waybar
     kitty
     rofi
+    ripgrep
   ];
 
 wayland.windowManager.hyprland = {
@@ -65,15 +66,23 @@ wayland.windowManager.hyprland = {
 };
 
 programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    
-    plugins = with pkgs.vimPlugins; [
-      nvim-lspconfig
-      telescope-nvim
-      plenary-nvim
-    ];
-  };
+  enable = true;
+  defaultEditor = true;
+  viAlias = true;
+  vimAlias = true;
+
+  plugins = with pkgs.vimPlugins; [
+    nvim-lspconfig
+    telescope-nvim
+    plenary-nvim
+  ];
+
+  extraLuaConfig = ''
+    local builtin = require('telescope.builtin')
+    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+  '';
+};
 }
