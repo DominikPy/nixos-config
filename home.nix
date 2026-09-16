@@ -24,29 +24,47 @@
   home.packages = with pkgs; [
     waybar
     kitty
-    rofi-wayland # App launcher
+    rofi
   ];
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    
-    # Clean, modern settings layout
-    settings = {
-      "$mod" = "SUPER";
+wayland.windowManager.hyprland = {
+  enable = true;
 
-      bind = [
-        "$mod, Q, exec, kitty"
-        "$mod, M, exit"
-        "$mod, R, exec, rofi -show drun"
-      ];
+  extraConfig = ''
+    local mod = "SUPER"
 
-      exec-once = [
-        "waybar"
-      ];
-    };
-  };
+    -- Launchers & Applications
+    hl.bind(mod .. " + Return", hl.dsp.exec_cmd("kitty"))
+    hl.bind(mod .. " + Space", hl.dsp.exec_cmd("rofi -show drun"))
+    hl.bind(mod .. " + E", hl.dsp.exec_cmd("kitty -e yazi"))
+    hl.bind(mod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
 
-  programs.neovim = {
+    -- Window Management
+    hl.bind(mod .. " + Q", hl.dsp.window.close())
+    hl.bind(mod .. " + F", hl.dsp.window.fullscreen())
+    hl.bind(mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+    hl.bind(mod .. " + M", hl.dsp.window.fullscreen({ mode = 1 }))
+
+    -- Focus movement
+    hl.bind(mod .. " + Left", hl.dsp.focus({ direction = "left" }))
+    hl.bind(mod .. " + Right", hl.dsp.focus({ direction = "right" }))
+    hl.bind(mod .. " + Up", hl.dsp.focus({ direction = "up" }))
+    hl.bind(mod .. " + Down", hl.dsp.focus({ direction = "down" }))
+
+    -- Workspaces 1-9
+    for i = 1, 9 do
+        hl.bind(mod .. " + " .. i, hl.dsp.focus({ workspace = tostring(i) }))
+        hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = tostring(i) }))
+    end
+
+    -- Startup commands
+    hl.on("hyprland.start", function()
+        hl.exec_cmd("waybar")
+    end)
+  '';
+};
+
+programs.neovim = {
     enable = true;
     defaultEditor = true;
     viAlias = true;
