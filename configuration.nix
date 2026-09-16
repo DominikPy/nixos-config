@@ -46,6 +46,10 @@ environment.systemPackages = with pkgs; [
 	kitty
 	];
 
+fonts.packages = with pkgs; [
+	nerd-fonts.jetbrains-mono
+	];
+
 services.openssh.enable = true;
 
 system.stateVersion = "26.05";
