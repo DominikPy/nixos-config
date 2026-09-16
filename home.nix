@@ -1,40 +1,52 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 
 {
-	home.username = "dominik";
-	home.homeDirectory = "/home/dominik";
-	home.stateVersion = "26.05";
-	programs.git.enable = true;
-	programs.bash = {
-	enable = true;
-	shellAliases = {
-		btw = "echo I use nixos, BTW";
-		};
-	};
+  home.username = "dominik";
+  home.homeDirectory = "/home/dominik";
+  home.stateVersion = "26.05";
+  
+  programs.git.enable = true;
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      btw = "echo I use nixos, BTW";
+    };
+  };
 
-home.sessionVariables = {
-	WLR_RENDERER_ALLOW_SOFTWARE = "1";
-    	LIBGL_ALWAYS_SOFTWARE = "1";
-    	WLR_NO_HARDWARE_CURSORS = "1";
-};
+  # Global VM graphics variables
+  home.sessionVariables = {
+    WLR_RENDERER_ALLOW_SOFTWARE = "1";
+    LIBGL_ALWAYS_SOFTWARE = "1";
+    WLR_NO_HARDWARE_CURSORS = "1";
+  };
 
-wayland.windowManager.hyprland = {
-  enable = true;
-  extraConfig = ''
-    local mod = "SUPER"
+  # Install essential desktop apps declaratively
+  home.packages = with pkgs; [
+    waybar
+    kitty
+    rofi-wayland # App launcher
+  ];
 
-    hl.bind(mod .. " + Q", hl.dsp.exec_cmd("kitty"))
-    hl.bind(mod .. " + M", function()
-        hl.exit()
-    end)
+  wayland.windowManager.hyprland = {
+    enable = true;
+    
+    # Clean, modern settings layout
+    settings = {
+      "$mod" = "SUPER";
 
-    hl.on("hyprland.start", function()
-        hl.dsp.exec_cmd("waybar")
-    end)
-  '';
-};
+      bind = [
+        "$mod, Q, exec, kitty"
+        "$mod, M, exit"
+        "$mod, R, exec, rofi -show drun"
+      ];
 
-	programs.neovim = {
+      exec-once = [
+        "waybar"
+      ];
+    };
+  };
+
+  programs.neovim = {
     enable = true;
     defaultEditor = true;
     viAlias = true;
@@ -46,5 +58,4 @@ wayland.windowManager.hyprland = {
       plenary-nvim
     ];
   };
-
 }
