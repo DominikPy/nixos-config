@@ -42,8 +42,6 @@ environment.systemPackages = with pkgs; [
 	neovim
 	wget
 	foot
-	waybar
-	kitty
 	];
 
 fonts.packages = with pkgs; [

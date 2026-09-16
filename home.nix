@@ -13,6 +13,12 @@
     };
   };
 
+catppuccin = {
+	enable = true;
+	flavor = "mocha";
+	autoEnable = true;
+};
+
   # Global VM graphics variables
   home.sessionVariables = {
     WLR_RENDERER_ALLOW_SOFTWARE = "1";
@@ -26,6 +32,7 @@
     kitty
     rofi
     ripgrep
+    nil
   ];
 
 wayland.windowManager.hyprland = {
@@ -64,7 +71,6 @@ wayland.windowManager.hyprland = {
     end)
   '';
 };
-
 programs.neovim = {
   enable = true;
   defaultEditor = true;
@@ -76,16 +82,34 @@ programs.neovim = {
     telescope-nvim
     plenary-nvim
     which-key-nvim
+    nvim-treesitter.withAllGrammars
   ];
 
-  extraLuaConfig = ''
+  initLua = ''
+    -- Auto-indenting and Tab settings
+    vim.opt.expandtab = true
+    vim.opt.shiftwidth = 2
+    vim.opt.tabstop = 2
+    vim.opt.smartindent = true
+
+    -- Enable syntax warnings and LSP features for Nix
+    require('lspconfig').nil_ls.setup({})
+    
+    vim.diagnostic.config({
+      virtual_text = true,
+      signs = true,
+      underline = true,
+    })
+
+    -- Your existing Telescope and Which-key setup
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
     vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
     vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
   
-require("which-key").setup()
+    require("which-key").setup()
   '';
 };
+
 }

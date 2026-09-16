@@ -23,7 +23,7 @@
             backupFileExtension = "backup";
             users.dominik = {
               imports = [
-                catppuccin.homeManagerModules.catppuccin
+                catppuccin.homeModules.catppuccin
                 ./home.nix
               ];
             };
