@@ -16,7 +16,13 @@ boot.loader.grub.device = "nodev";
 
  # services.getty.autologinUser = "dominik";
  
+services.displayManager.sddm = {
+  enable = true;
+  wayland.enable = true;
+};
 
+# Force SDDM to default to the Hyprland session
+services.displayManager.defaultSession = "hyprland";
 
 networking.hostName = "mainframe";
 
