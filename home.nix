@@ -7,8 +7,6 @@
   home.stateVersion = "26.11";
 
   # === Lock Screen & Idle Daemon ===
-  programs.hyprlock.enable = true;
-
   services.hypridle = {
     enable = true;
     settings = {
@@ -17,6 +15,58 @@
         before_sleep_cmd = "loginctl lock-session";  
         after_sleep_cmd = "hyprctl dispatch dpms on";
       };
+    };
+  };
+
+# === Wallpaper (Hyprpaper) ===
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [ "${./img/aqua.jpg}" ];
+      wallpaper = [ ",${./img/aqua.jpg}" ];
+      splash = false;
+    };
+  };
+
+# === Lock Screen UI & Fingerprint ===
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      auth = {
+        fingerprint = {
+          enabled = true;
+          ready_message = "Scan fingerprint to unlock";
+          present_message = "Scanning...";
+        };
+      };
+
+      background = [
+        {
+          path = "screenshot";
+          blur_passes = 2;
+          blur_size = 5;
+        }
+      ];
+
+      input-field = [
+        {
+          size = "250, 50";
+          position = "0, -80";
+          dots_center = true;
+          fade_on_empty = false;
+          placeholder_text = "Password or Fingerprint...";
+        }
+      ];
+
+      label = [
+        {
+          text = "$TIME";
+          font_size = 64;
+          position = "0, 80";
+          halign = "center";
+          valign = "center";
+        }
+      ];
     };
   };
 
@@ -29,11 +79,6 @@
       local terminal    = "kitty"
       local fileManager = "thunar"
       local menu        = "wofi --show drun"
-
-      -- Autostart
-      hl.on("hyprland.start", function()
-        hl.exec_cmd("waybar")
-      end)
 
       -- Keyboard layouts: US and Czech QWERTY
       hl.config({

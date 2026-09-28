@@ -40,9 +40,13 @@
     extraGroups = [ "networkmanager" "wheel" "video" ];
   };
 
+  programs.hyprlock.enable = true;
+
+
   services.fprintd.enable = true;
   security.pam.services.login.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
+  security.pam.services.hyprlock.fprintAuth = true;
 
 security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
