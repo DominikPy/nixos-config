@@ -7,71 +7,64 @@
   home.stateVersion = "26.11";
 
   # === Window Manager (Hyprland) ===
-  wayland.windowManager.hyprland = {
+wayland.windowManager.hyprland = {
     enable = true;
-    settings = {
-      "$mod" = "SUPER";
-      "$terminal" = "kitty";
-      "$fileManager" = "thunar";
-      "$menu" = "wofi --show drun"; 
+    extraConfig = ''
+      $mod = SUPER
+      $terminal = kitty
+      $fileManager = thunar
+      $menu = wofi --show drun
 
-      bind = [
-        # Core Applications
-        "$mod, Return, exec, $terminal"
-        "$mod, E, exec, $fileManager"
-        "$mod, Space, exec, $menu"
-        
-        # Window Management
-        "$mod, Q, killactive,"
-        "$mod SHIFT, M, exit,"
-        "$mod, F, togglefloating,"
-        "$mod, P, pseudo,"
-        "$mod, J, togglesplit,"
+      exec-once = waybar
 
-        # Move focus
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
+      # Core Applications
+      bind = $mod, Return, exec, $terminal
+      bind = $mod, E, exec, $fileManager
+      bind = $mod, Space, exec, $menu
+      
+      # Window Management
+      bind = $mod, Q, killactive
+      bind = $mod SHIFT, M, exit
+      bind = $mod, F, togglefloating
+      bind = $mod, P, pseudo
+      bind = $mod, J, togglesplit
 
-        # Switch workspaces
-        "$mod, 1, workspace, 1"
-        "$mod, 2, workspace, 2"
-        "$mod, 3, workspace, 3"
-        "$mod, 4, workspace, 4"
-        "$mod, 5, workspace, 5"
+      # Move focus
+      bind = $mod, left, movefocus, l
+      bind = $mod, right, movefocus, r
+      bind = $mod, up, movefocus, u
+      bind = $mod, down, movefocus, d
 
-        # Move active window to a workspace
-        "$mod SHIFT, 1, movetoworkspace, 1"
-        "$mod SHIFT, 2, movetoworkspace, 2"
-        "$mod SHIFT, 3, movetoworkspace, 3"
-        "$mod SHIFT, 4, movetoworkspace, 4"
-        "$mod SHIFT, 5, movetoworkspace, 5"
+      # Switch workspaces
+      bind = $mod, 1, workspace, 1
+      bind = $mod, 2, workspace, 2
+      bind = $mod, 3, workspace, 3
+      bind = $mod, 4, workspace, 4
+      bind = $mod, 5, workspace, 5
 
-        # Scroll through existing workspaces
-        "$mod, mouse_down, workspace, e+1"
-        "$mod, mouse_up, workspace, e-1"
-      ];
+      # Move active window to a workspace
+      bind = $mod SHIFT, 1, movetoworkspace, 1
+      bind = $mod SHIFT, 2, movetoworkspace, 2
+      bind = $mod SHIFT, 3, movetoworkspace, 3
+      bind = $mod SHIFT, 4, movetoworkspace, 4
+      bind = $mod SHIFT, 5, movetoworkspace, 5
 
-      bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-      ];
+      # Scroll through existing workspaces
+      bind = $mod, mouse_down, workspace, e+1
+      bind = $mod, mouse_up, workspace, e-1
 
-      bindel = [
-        # Media & Brightness Controls
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-      ];
+      # Mouse binds
+      bindm = $mod, mouse:272, movewindow
+      bindm = $mod, mouse:273, resizewindow
 
-      exec-once = [
-        "waybar"
-      ];
-    };
+      # Media Controls
+      bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+      bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+      bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+      bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+      bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
+      bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
+    '';
   };
 
   # === Status Bar (Waybar) ===
