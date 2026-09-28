@@ -1,11 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  # === User Configuration ===
   home.username = "dominik";
   home.homeDirectory = "/home/dominik";
-  home.stateVersion = "24.05";
+  home.stateVersion = "26.11";
 
-  # Hyprland Configuration
+  # === Window Manager (Hyprland) ===
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -58,6 +59,7 @@
       ];
 
       bindel = [
+        # Media & Brightness Controls
         ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
         ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -65,13 +67,14 @@
         ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
         ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
       ];
+
       exec-once = [
         "waybar"
       ];
     };
   };
 
- # Waybar Configuration
+  # === Status Bar (Waybar) ===
   programs.waybar = {
     enable = true;
     settings = {
@@ -80,22 +83,19 @@
         position = "top";
         height = 30;
         
-        # Define which modules appear where
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
         modules-right = [ "pulseaudio" "battery" "tray" ];
 
-        # Module Configurations
         "hyprland/workspaces" = {
           format = "{name}";
         };
         "clock" = {
-          format = "{:%H:%M  -  %b %d}"; # E.g., 14:30 - Sep 28
+          format = "{:%H:%M  -  %b %d}";
         };
         "pulseaudio" = {
           format = "Vol: {volume}%";
           format-muted = "Muted";
-          # Clicking the volume block will open your graphical audio mixer
           on-click = "pavucontrol"; 
         };
         "battery" = {
@@ -109,7 +109,6 @@
       };
     };
     
-    # Minimal CSS to make it look clean and readable
     style = ''
       * {
         border: none;
@@ -134,7 +133,8 @@
       }
     '';
   };
-  # Kitty Terminal
+
+  # === User Programs ===
   programs.kitty = {
     enable = true;
     settings = {
@@ -143,7 +143,6 @@
     };
   };
 
-  # Neovim
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -151,28 +150,34 @@
     vimAlias = true;
   };
 
-  # Productivity & Utility Packages
+  programs.vscode.enable = true;
+  
+  # Required to let Home Manager manage itself
+  programs.home-manager.enable = true;
+
+  # === User Packages ===
   home.packages = with pkgs; [
-    # Office & Documents
+    # GUI Applications
     libreoffice-fresh
     zathura
-    
-    # File Management & Media
     thunar
     imv
     wofi
+    pavucontrol
     
-    # Utilities
+    # CLI Utilities
     wl-clipboard
     brightnessctl
-    pavucontrol
 
     # LazyVim Dependencies
     gcc           # Required for compiling tree-sitter syntax parsers
     ripgrep       # Fast search tool for Telescope/Fzf
     fd            # Fast file finder
     lazygit       # Git UI (LazyVim integrates this natively)
-  ];
 
-  home.stateVersion = "26.11";
+    # Communication
+    # Choose ONE of the following:
+    discord      # The official client
+    # vesktop    # The community Wayland-optimized client (Recommended for Hyprland)
+  ];
 }
