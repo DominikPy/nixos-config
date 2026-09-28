@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+	{ config, pkgs, ... }:
 
 {
   # === User Configuration ===
@@ -82,6 +82,7 @@
   # === Status Bar (Waybar) ===
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     settings = {
       mainBar = {
         layer = "top";
@@ -167,6 +168,15 @@
     vimAlias = true;
   };
 
+  programs.git = {
+	enable = true;
+	userName = "Dominik Novotny";
+	userEmail = "medunadominik@gmail.com";
+	extraConfig = {
+		init.defaultBranch = "main";
+	};
+  };
+
   programs.vscode.enable = true;
 
   # Required to let Home Manager manage itself
@@ -181,6 +191,7 @@
     imv
     wofi
     pavucontrol
+    firefox
 
     # CLI Utilities
     wl-clipboard

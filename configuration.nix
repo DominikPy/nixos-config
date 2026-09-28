@@ -29,6 +29,7 @@
 
   # === Networking & Locale ===
   networking.hostName = "thinkpad";
+  networking.extraHosts = "127.0.0.1 thinkpad";
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Prague"; 
   i18n.defaultLocale = "en_US.UTF-8";
