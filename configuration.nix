@@ -39,6 +39,8 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" "video" ];
   };
+  services.fprintd.enable = true;
+  security.pam.services.sudo.fprintAuth = true;
 
   services.fprintd.enable = true;
   security.pam.services.login.fprintAuth = true;
