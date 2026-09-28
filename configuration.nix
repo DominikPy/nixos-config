@@ -39,12 +39,18 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" "video" ];
   };
-  services.fprintd.enable = true;
-  security.pam.services.sudo.fprintAuth = true;
 
   services.fprintd.enable = true;
   security.pam.services.login.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
+
+security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id == "net.reactivated.fprint.device.enroll" && subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
   # === Desktop Environment ===
   programs.hyprland.enable = true;
