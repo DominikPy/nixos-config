@@ -8,63 +8,60 @@
 
   # === Window Manager (Hyprland) ===
 wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = ''
-      -- The 'hl' object is automatically injected globally by Hyprland.
-      
-      local mod = "SUPER"
-      local terminal = "kitty"
-      local fileManager = "thunar"
-      local menu = "wofi --show drun"
+  enable = true;
+  configType = "lua";
+  extraConfig = ''
+    local mod         = "SUPER"
+    local terminal    = "kitty"
+    local fileManager = "thunar"
+    local menu        = "wofi --show drun"
 
-      hl.config({
-        ["exec-once"] = { "waybar" }
-      })
+    -- Autostart
+    hl.on("hyprland.start", function()
+      hl.exec_cmd("waybar")
+    end)
 
-      -- Core Applications
-      hl.bind(mod .. " + Return", hl.dsp.exec_cmd(terminal))
-      hl.bind(mod .. " + E", hl.dsp.exec_cmd(fileManager))
-      hl.bind(mod .. " + Space", hl.dsp.exec_cmd(menu))
-      
-      -- Window Management
-      -- We use hyprctl dispatch via exec_cmd as a foolproof fallback for some window binds
-      hl.bind(mod .. " + Q", hl.dsp.exec_cmd("hyprctl dispatch killactive"))
-      hl.bind(mod .. " + SHIFT + M", hl.dsp.exec_cmd("hyprctl dispatch exit"))
-      hl.bind(mod .. " + F", hl.dsp.window.float({ action = "toggle" }))
-      hl.bind(mod .. " + P", hl.dsp.window.pseudo())
-      hl.bind(mod .. " + J", hl.dsp.layout("togglesplit"))
+    -- Core applications
+    hl.bind(mod .. " + Return", hl.dsp.exec_cmd(terminal))
+    hl.bind(mod .. " + E",      hl.dsp.exec_cmd(fileManager))
+    hl.bind(mod .. " + Space",  hl.dsp.exec_cmd(menu))
 
-      -- Move focus
-      hl.bind(mod .. " + left", hl.dsp.focus({ direction = "l" }))
-      hl.bind(mod .. " + right", hl.dsp.focus({ direction = "r" }))
-      hl.bind(mod .. " + up", hl.dsp.focus({ direction = "u" }))
-      hl.bind(mod .. " + down", hl.dsp.focus({ direction = "d" }))
+    -- Window management
+    hl.bind(mod .. " + Q",         hl.dsp.window.close())
+    hl.bind(mod .. " + SHIFT + M", hl.dsp.exit())
+    hl.bind(mod .. " + F",         hl.dsp.window.float({ action = "toggle" }))
+    hl.bind(mod .. " + P",         hl.dsp.window.pseudo())
+    hl.bind(mod .. " + J",         hl.dsp.layout("togglesplit"))
 
-      -- Switch workspaces & Move windows
-      for i = 1, 5 do
-        hl.bind(mod .. " + " .. i, hl.dsp.focus({ workspace = i }))
-        hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = tostring(i) }))
-      end
+    -- Move focus
+    hl.bind(mod .. " + left",  hl.dsp.focus({ direction = "left" }))
+    hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
+    hl.bind(mod .. " + up",    hl.dsp.focus({ direction = "up" }))
+    hl.bind(mod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
-      -- Scroll through existing workspaces
-      hl.bind(mod .. " + mouse_down", hl.dsp.exec_cmd("hyprctl dispatch workspace e+1"))
-      hl.bind(mod .. " + mouse_up", hl.dsp.exec_cmd("hyprctl dispatch workspace e-1"))
+    -- Workspaces 1-5: switch, and move window
+    for i = 1, 5 do
+      hl.bind(mod .. " + " .. i,           hl.dsp.focus({ workspace = i }))
+      hl.bind(mod .. " + SHIFT + " .. i,   hl.dsp.window.move({ workspace = i }))
+    end
 
-      -- Mouse binds (Move and Resize)
-      -- The old bindm is replaced by adding { mouse = true }
-      hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-      hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+    -- Scroll through workspaces
+    hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+    hl.bind(mod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
-      -- Media Controls
-      -- The old bindel is replaced by adding { repeating = true, locked = true }
-      hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
-      hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
-      hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
-      hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
-      hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s 10%+"), { repeating = true, locked = true })
-      hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { repeating = true, locked = true })
-    '';
-  };
+    -- Mouse move/resize
+    hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+    hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+    -- Media & brightness
+    hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
+    hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
+    hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true, repeating = true })
+    hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true, repeating = true })
+    hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl s 10%+"), { locked = true, repeating = true })
+    hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeating = true })
+  '';
+};
 
   # === Status Bar (Waybar) ===
   programs.waybar = {
