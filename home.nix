@@ -10,60 +10,64 @@
 wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = ''
-      $mod = SUPER
-      $terminal = kitty
-      $fileManager = thunar
-      $menu = wofi --show drun
-
-      exec-once = waybar
-
-      # Core Applications
-      bind = $mod, Return, exec, $terminal
-      bind = $mod, E, exec, $fileManager
-      bind = $mod, Space, exec, $menu
+      local hl = require("hyprland")
       
-      # Window Management
-      bind = $mod, Q, killactive
-      bind = $mod SHIFT, M, exit
-      bind = $mod, F, togglefloating
-      bind = $mod, P, pseudo
-      bind = $mod, J, togglesplit
+      local mod = "SUPER"
+      local terminal = "kitty"
+      local fileManager = "thunar"
+      local menu = "wofi --show drun"
 
-      # Move focus
-      bind = $mod, left, movefocus, l
-      bind = $mod, right, movefocus, r
-      bind = $mod, up, movefocus, u
-      bind = $mod, down, movefocus, d
+      hl.config({
+        exec_once = { "waybar" }
+      })
 
-      # Switch workspaces
-      bind = $mod, 1, workspace, 1
-      bind = $mod, 2, workspace, 2
-      bind = $mod, 3, workspace, 3
-      bind = $mod, 4, workspace, 4
-      bind = $mod, 5, workspace, 5
+      -- Core Applications
+      hl.bind(mod, "Return", "exec", terminal)
+      hl.bind(mod, "E", "exec", fileManager)
+      hl.bind(mod, "Space", "exec", menu)
+      
+      -- Window Management
+      hl.bind(mod, "Q", "killactive")
+      hl.bind(mod .. " SHIFT", "M", "exit")
+      hl.bind(mod, "F", "togglefloating")
+      hl.bind(mod, "P", "pseudo")
+      hl.bind(mod, "J", "togglesplit")
 
-      # Move active window to a workspace
-      bind = $mod SHIFT, 1, movetoworkspace, 1
-      bind = $mod SHIFT, 2, movetoworkspace, 2
-      bind = $mod SHIFT, 3, movetoworkspace, 3
-      bind = $mod SHIFT, 4, movetoworkspace, 4
-      bind = $mod SHIFT, 5, movetoworkspace, 5
+      -- Move focus
+      hl.bind(mod, "left", "movefocus", "l")
+      hl.bind(mod, "right", "movefocus", "r")
+      hl.bind(mod, "up", "movefocus", "u")
+      hl.bind(mod, "down", "movefocus", "d")
 
-      # Scroll through existing workspaces
-      bind = $mod, mouse_down, workspace, e+1
-      bind = $mod, mouse_up, workspace, e-1
+      -- Switch workspaces
+      hl.bind(mod, "1", "workspace", "1")
+      hl.bind(mod, "2", "workspace", "2")
+      hl.bind(mod, "3", "workspace", "3")
+      hl.bind(mod, "4", "workspace", "4")
+      hl.bind(mod, "5", "workspace", "5")
 
-      # Mouse binds
-      bindm = $mod, mouse:272, movewindow
-      bindm = $mod, mouse:273, resizewindow
+      -- Move active window to a workspace
+      hl.bind(mod .. " SHIFT", "1", "movetoworkspace", "1")
+      hl.bind(mod .. " SHIFT", "2", "movetoworkspace", "2")
+      hl.bind(mod .. " SHIFT", "3", "movetoworkspace", "3")
+      hl.bind(mod .. " SHIFT", "4", "movetoworkspace", "4")
+      hl.bind(mod .. " SHIFT", "5", "movetoworkspace", "5")
 
-      # Media Controls
-      bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-      bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-      bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-      bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-      bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
-      bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
+      -- Scroll through existing workspaces
+      hl.bind(mod, "mouse_down", "workspace", "e+1")
+      hl.bind(mod, "mouse_up", "workspace", "e-1")
+
+      -- Mouse binds (Move and Resize)
+      hl.bindm(mod, "mouse:272", "movewindow")
+      hl.bindm(mod, "mouse:273", "resizewindow")
+
+      -- Media & Brightness Controls (Execute while locked & allow repeating)
+      hl.bindel("", "XF86AudioRaiseVolume", "exec", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+")
+      hl.bindel("", "XF86AudioLowerVolume", "exec", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
+      hl.bindel("", "XF86AudioMute", "exec", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
+      hl.bindel("", "XF86AudioMicMute", "exec", "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")
+      hl.bindel("", "XF86MonBrightnessUp", "exec", "brightnessctl s 10%+")
+      hl.bindel("", "XF86MonBrightnessDown", "exec", "brightnessctl s 10%-")
     '';
   };
 
