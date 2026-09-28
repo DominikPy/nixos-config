@@ -79,13 +79,6 @@
     '';
   };
 
-# === Waybar Clock ===
-clock = {
-      format = "{:%H:%M}";
-      # This injects the calendar into the black hover box
-      tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-    };
-
   # === Status Bar (Waybar) ===
   programs.waybar = {
     enable = true;
@@ -95,6 +88,12 @@ clock = {
         layer = "top";
         position = "top";
         height = 30;
+
+# === Waybar Clock ===
+        clock = {
+          format = "{:%H:%M}";
+          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+    };
 
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
