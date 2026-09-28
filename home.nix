@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+	{ config, pkgs, ... }:
 
 {
   # === User Configuration ===
@@ -28,7 +28,7 @@ wayland.windowManager.hyprland = {
       
       -- Window Management
       -- We use hyprctl dispatch via exec_cmd as a foolproof fallback for some window binds
-      hl.bind(mod .. " + Q", hl.dsp.exec_cmd("hyprctl dispatch killactive"))
+      hl.bind(mod .. " + Q", hl.dsp.window.close())
       hl.bind(mod .. " + SHIFT + M", hl.dsp.exec_cmd("hyprctl dispatch exit"))
       hl.bind(mod .. " + F", hl.dsp.window.float({ action = "toggle" }))
       hl.bind(mod .. " + P", hl.dsp.window.pseudo())
@@ -69,6 +69,7 @@ wayland.windowManager.hyprland = {
   # === Status Bar (Waybar) ===
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     settings = {
       mainBar = {
         layer = "top";
@@ -156,6 +157,7 @@ wayland.windowManager.hyprland = {
     imv
     wofi
     pavucontrol
+    firefox
     
     # CLI Utilities
     wl-clipboard
