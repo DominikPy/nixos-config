@@ -10,7 +10,7 @@
 wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = ''
-      local hl = require("hyprland")
+      -- The 'hl' object is automatically injected globally by Hyprland.
       
       local mod = "SUPER"
       local terminal = "kitty"
@@ -18,56 +18,51 @@ wayland.windowManager.hyprland = {
       local menu = "wofi --show drun"
 
       hl.config({
-        exec_once = { "waybar" }
+        ["exec-once"] = { "waybar" }
       })
 
       -- Core Applications
-      hl.bind(mod, "Return", "exec", terminal)
-      hl.bind(mod, "E", "exec", fileManager)
-      hl.bind(mod, "Space", "exec", menu)
+      hl.bind(mod .. " + Return", hl.dsp.exec_cmd(terminal))
+      hl.bind(mod .. " + E", hl.dsp.exec_cmd(fileManager))
+      hl.bind(mod .. " + Space", hl.dsp.exec_cmd(menu))
       
       -- Window Management
-      hl.bind(mod, "Q", "killactive")
-      hl.bind(mod .. " SHIFT", "M", "exit")
-      hl.bind(mod, "F", "togglefloating")
-      hl.bind(mod, "P", "pseudo")
-      hl.bind(mod, "J", "togglesplit")
+      -- We use hyprctl dispatch via exec_cmd as a foolproof fallback for some window binds
+      hl.bind(mod .. " + Q", hl.dsp.exec_cmd("hyprctl dispatch killactive"))
+      hl.bind(mod .. " + SHIFT + M", hl.dsp.exec_cmd("hyprctl dispatch exit"))
+      hl.bind(mod .. " + F", hl.dsp.window.float({ action = "toggle" }))
+      hl.bind(mod .. " + P", hl.dsp.window.pseudo())
+      hl.bind(mod .. " + J", hl.dsp.layout("togglesplit"))
 
       -- Move focus
-      hl.bind(mod, "left", "movefocus", "l")
-      hl.bind(mod, "right", "movefocus", "r")
-      hl.bind(mod, "up", "movefocus", "u")
-      hl.bind(mod, "down", "movefocus", "d")
+      hl.bind(mod .. " + left", hl.dsp.focus({ direction = "l" }))
+      hl.bind(mod .. " + right", hl.dsp.focus({ direction = "r" }))
+      hl.bind(mod .. " + up", hl.dsp.focus({ direction = "u" }))
+      hl.bind(mod .. " + down", hl.dsp.focus({ direction = "d" }))
 
-      -- Switch workspaces
-      hl.bind(mod, "1", "workspace", "1")
-      hl.bind(mod, "2", "workspace", "2")
-      hl.bind(mod, "3", "workspace", "3")
-      hl.bind(mod, "4", "workspace", "4")
-      hl.bind(mod, "5", "workspace", "5")
-
-      -- Move active window to a workspace
-      hl.bind(mod .. " SHIFT", "1", "movetoworkspace", "1")
-      hl.bind(mod .. " SHIFT", "2", "movetoworkspace", "2")
-      hl.bind(mod .. " SHIFT", "3", "movetoworkspace", "3")
-      hl.bind(mod .. " SHIFT", "4", "movetoworkspace", "4")
-      hl.bind(mod .. " SHIFT", "5", "movetoworkspace", "5")
+      -- Switch workspaces & Move windows
+      for i = 1, 5 do
+        hl.bind(mod .. " + " .. i, hl.dsp.focus({ workspace = i }))
+        hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = tostring(i) }))
+      end
 
       -- Scroll through existing workspaces
-      hl.bind(mod, "mouse_down", "workspace", "e+1")
-      hl.bind(mod, "mouse_up", "workspace", "e-1")
+      hl.bind(mod .. " + mouse_down", hl.dsp.exec_cmd("hyprctl dispatch workspace e+1"))
+      hl.bind(mod .. " + mouse_up", hl.dsp.exec_cmd("hyprctl dispatch workspace e-1"))
 
       -- Mouse binds (Move and Resize)
-      hl.bindm(mod, "mouse:272", "movewindow")
-      hl.bindm(mod, "mouse:273", "resizewindow")
+      -- The old bindm is replaced by adding { mouse = true }
+      hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+      hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
-      -- Media & Brightness Controls (Execute while locked & allow repeating)
-      hl.bindel("", "XF86AudioRaiseVolume", "exec", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+")
-      hl.bindel("", "XF86AudioLowerVolume", "exec", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
-      hl.bindel("", "XF86AudioMute", "exec", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
-      hl.bindel("", "XF86AudioMicMute", "exec", "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")
-      hl.bindel("", "XF86MonBrightnessUp", "exec", "brightnessctl s 10%+")
-      hl.bindel("", "XF86MonBrightnessDown", "exec", "brightnessctl s 10%-")
+      -- Media Controls
+      -- The old bindel is replaced by adding { repeating = true, locked = true }
+      hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
+      hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
+      hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+      hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
+      hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s 10%+"), { repeating = true, locked = true })
+      hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { repeating = true, locked = true })
     '';
   };
 
