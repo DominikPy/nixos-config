@@ -6,6 +6,20 @@
   home.homeDirectory = "/home/dominik";
   home.stateVersion = "26.11";
 
+  # === Lock Screen & Idle Daemon ===
+  programs.hyprlock.enable = true;
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";       
+        before_sleep_cmd = "loginctl lock-session";  
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+    };
+  };
+
   # === Window Manager (Hyprland) ===
   wayland.windowManager.hyprland = {
     enable = true;
@@ -26,6 +40,8 @@
         input = {
           kb_layout  = "us,cz",
           kb_variant = ",qwerty",
+          touchpad = {
+            natural_scroll = true,
         },
       })
 
@@ -91,7 +107,7 @@
 
 # === Waybar Clock ===
         clock = {
-          format = "{:%H:%M}";
+          format = "{:%H:%M - %b %d}";
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
     };
 
@@ -104,9 +120,6 @@
         };
         "hyprland/language" = {
           format = "{short}";
-        };
-        "clock" = {
-          format = "{:%H:%M  -  %b %d}";
         };
         # TLP profile: shows current profile, click cycles
         # power-saver -> balanced -> performance
