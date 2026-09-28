@@ -7,61 +7,77 @@
   home.stateVersion = "26.11";
 
   # === Window Manager (Hyprland) ===
-wayland.windowManager.hyprland = {
-  enable = true;
-  configType = "lua";
-  extraConfig = ''
-    local mod         = "SUPER"
-    local terminal    = "kitty"
-    local fileManager = "thunar"
-    local menu        = "wofi --show drun"
+  wayland.windowManager.hyprland = {
+    enable = true;
+    configType = "lua";
+    extraConfig = ''
+      local mod         = "SUPER"
+      local terminal    = "kitty"
+      local fileManager = "thunar"
+      local menu        = "wofi --show drun"
 
-    -- Autostart
-    hl.on("hyprland.start", function()
-      hl.exec_cmd("waybar")
-    end)
+      -- Autostart
+      hl.on("hyprland.start", function()
+        hl.exec_cmd("waybar")
+      end)
 
-    -- Core applications
-    hl.bind(mod .. " + Return", hl.dsp.exec_cmd(terminal))
-    hl.bind(mod .. " + E",      hl.dsp.exec_cmd(fileManager))
-    hl.bind(mod .. " + Space",  hl.dsp.exec_cmd(menu))
+      -- Keyboard layouts: US and Czech QWERTY
+      hl.config({
+        input = {
+          kb_layout  = "us,cz",
+          kb_variant = ",qwerty",
+        },
+      })
 
-    -- Window management
-    hl.bind(mod .. " + Q",         hl.dsp.window.close())
-    hl.bind(mod .. " + SHIFT + M", hl.dsp.exit())
-    hl.bind(mod .. " + F",         hl.dsp.window.float({ action = "toggle" }))
-    hl.bind(mod .. " + P",         hl.dsp.window.pseudo())
-    hl.bind(mod .. " + J",         hl.dsp.layout("togglesplit"))
+      -- Core applications
+      hl.bind(mod .. " + Return", hl.dsp.exec_cmd(terminal))
+      hl.bind(mod .. " + E",      hl.dsp.exec_cmd(fileManager))
+      hl.bind(mod .. " + D",      hl.dsp.exec_cmd(menu))
 
-    -- Move focus
-    hl.bind(mod .. " + left",  hl.dsp.focus({ direction = "left" }))
-    hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
-    hl.bind(mod .. " + up",    hl.dsp.focus({ direction = "up" }))
-    hl.bind(mod .. " + down",  hl.dsp.focus({ direction = "down" }))
+      -- Switch keyboard layout (like Win + Space)
+      hl.bind(mod .. " + Space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 
-    -- Workspaces 1-5: switch, and move window
-    for i = 1, 5 do
-      hl.bind(mod .. " + " .. i,           hl.dsp.focus({ workspace = i }))
-      hl.bind(mod .. " + SHIFT + " .. i,   hl.dsp.window.move({ workspace = i }))
-    end
+      -- Window management
+      hl.bind(mod .. " + Q",         hl.dsp.window.close())
+      hl.bind(mod .. " + SHIFT + M", hl.dsp.exit())
+      hl.bind(mod .. " + F",         hl.dsp.window.float({ action = "toggle" }))
+      hl.bind(mod .. " + P",         hl.dsp.window.pseudo())
+      hl.bind(mod .. " + J",         hl.dsp.layout("togglesplit"))
 
-    -- Scroll through workspaces
-    hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-    hl.bind(mod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+      -- Move focus
+      hl.bind(mod .. " + left",  hl.dsp.focus({ direction = "left" }))
+      hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
+      hl.bind(mod .. " + up",    hl.dsp.focus({ direction = "up" }))
+      hl.bind(mod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
-    -- Mouse move/resize
-    hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-    hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+      -- Workspaces 1-5: switch, and move window
+      for i = 1, 5 do
+        hl.bind(mod .. " + " .. i,         hl.dsp.focus({ workspace = i }))
+        hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
+      end
 
-    -- Media & brightness
-    hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-    hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
-    hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true, repeating = true })
-    hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true, repeating = true })
-    hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl s 10%+"), { locked = true, repeating = true })
-    hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeating = true })
-  '';
-};
+      -- Scroll through workspaces
+      hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+      hl.bind(mod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+
+      -- Mouse move/resize
+      hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+      hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+      -- Power profiles (TLP)
+      hl.bind(mod .. " + F10", hl.dsp.exec_cmd("tlpctl power-saver"))
+      hl.bind(mod .. " + F11", hl.dsp.exec_cmd("tlpctl balanced"))
+      hl.bind(mod .. " + F12", hl.dsp.exec_cmd("tlpctl performance"))
+
+      -- Media & brightness
+      hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
+      hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
+      hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true, repeating = true })
+      hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true, repeating = true })
+      hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl s 10%+"), { locked = true, repeating = true })
+      hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeating = true })
+    '';
+  };
 
   # === Status Bar (Waybar) ===
   programs.waybar = {
@@ -71,21 +87,33 @@ wayland.windowManager.hyprland = {
         layer = "top";
         position = "top";
         height = 30;
-        
+
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "battery" "tray" ];
+        modules-right = [ "hyprland/language" "custom/power" "pulseaudio" "battery" "tray" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
         };
+        "hyprland/language" = {
+          format = "{short}";
+        };
         "clock" = {
           format = "{:%H:%M  -  %b %d}";
+        };
+        # TLP profile: shows current profile, click cycles
+        # power-saver -> balanced -> performance
+        "custom/power" = {
+          exec = "tlpctl get";
+          interval = 10;
+          signal = 8;
+          format = "Pwr: {}";
+          on-click = "sh -c 'case $(tlpctl get) in power-saver) tlpctl balanced;; balanced) tlpctl performance;; *) tlpctl power-saver;; esac; pkill -RTMIN+8 waybar'";
         };
         "pulseaudio" = {
           format = "Vol: {volume}%";
           format-muted = "Muted";
-          on-click = "pavucontrol"; 
+          on-click = "pavucontrol";
         };
         "battery" = {
           format = "Bat: {capacity}%";
@@ -97,7 +125,7 @@ wayland.windowManager.hyprland = {
         };
       };
     };
-    
+
     style = ''
       * {
         border: none;
@@ -117,7 +145,7 @@ wayland.windowManager.hyprland = {
         background: #ffffff;
         color: #000000;
       }
-      #clock, #pulseaudio, #battery, #tray, #window {
+      #clock, #pulseaudio, #battery, #tray, #window, #custom-power, #language {
         padding: 0 15px;
       }
     '';
@@ -140,7 +168,7 @@ wayland.windowManager.hyprland = {
   };
 
   programs.vscode.enable = true;
-  
+
   # Required to let Home Manager manage itself
   programs.home-manager.enable = true;
 
@@ -153,7 +181,7 @@ wayland.windowManager.hyprland = {
     imv
     wofi
     pavucontrol
-    
+
     # CLI Utilities
     wl-clipboard
     brightnessctl

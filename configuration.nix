@@ -14,6 +14,7 @@
   
   services.power-profiles-daemon.enable = false;
   services.tlp.enable = true;
+  services.tlp.pd.enable = true;
   services.thermald.enable = true; 
 
   # === Audio (Pipewire) ===
