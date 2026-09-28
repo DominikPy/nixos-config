@@ -42,6 +42,7 @@
           kb_variant = ",qwerty",
           touchpad = {
             natural_scroll = true,
+          },
         },
       })
 
