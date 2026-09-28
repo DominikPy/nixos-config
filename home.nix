@@ -140,6 +140,15 @@ wayland.windowManager.hyprland = {
     vimAlias = true;
   };
 
+  programs.git = {
+	enable = true;
+	userName = "Dominik Novotny";
+	userEmail = "medunadominik@gmail.com";
+	extraConfig = {
+		init.defaultBranch = "main";
+	};
+  };
+
   programs.vscode.enable = true;
   
   # Required to let Home Manager manage itself
