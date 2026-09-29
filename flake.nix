@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # LazyVim, kept in sync with the nixpkgs unstable branch
-    inputs.lazyvim.url = "github:pfassina/lazyvim-nix";
+    lazyvim.url = "github:pfassina/lazyvim-nix";
 
     # Community hardware optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
