@@ -124,5 +124,6 @@ services.printing = {
     git
     seahorse
     uv
+    fastfetch
   ];
 }
