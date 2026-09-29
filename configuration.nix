@@ -69,6 +69,7 @@ security.polkit.extraConfig = ''
   security.pam.services.greetd.enableGnomeKeyring = true;
 
   systemd.user.services.dms.path = [ pkgs.fprintd ];
+  systemd.user.services.dms.environment.QS_ICON_THEME = "Papirus-Dark";
 
 # === Restart fprintd after sleep ===
   powerManagement.resumeCommands = ''
