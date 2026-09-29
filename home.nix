@@ -117,8 +117,8 @@
       hl.bind(mod .. " + up",    hl.dsp.focus({ direction = "up" }))
       hl.bind(mod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
-      -- Workspaces 1-5: switch, and move window
-      for i = 1, 5 do
+      -- Workspaces 1-9: switch, and move window
+      for i = 1, 9 do
         hl.bind(mod .. " + " .. i,         hl.dsp.focus({ workspace = i }))
         hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
       end
