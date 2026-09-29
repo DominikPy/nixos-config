@@ -235,9 +235,18 @@
   # === User Programs ===
   programs.kitty = {
     enable = true;
+    themeFile = "Catppuccin-Mocha";
     settings = {
       window_padding_width = 4;
       background_opacity = "0.95";
+      remember_window_size = "no";
+    # Mauve accent
+      cursor                = "#cba6f7";
+      cursor_text_color     = "#1e1e2e";
+      url_color             = "#cba6f7";
+      active_border_color   = "#cba6f7";
+      active_tab_background = "#cba6f7";
+      active_tab_foreground = "#11111b";
     };
   };
 

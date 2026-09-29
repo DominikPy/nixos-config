@@ -22,6 +22,7 @@
     START_CHARGE_THRESH_BAT0 = 75;
     STOP_CHARGE_THRESH_BAT0 = 80;
   };
+  services.upower.enable = true;
 
   # === Audio (Pipewire) ===
   services.pulseaudio.enable = false;
@@ -66,6 +67,13 @@ security.polkit.extraConfig = ''
 
   security.pam.services.greetd.enableGnomeKeyring = true;
 
+  systemd.user.services.dms.path = [ pkgs.fprintd ];
+
+# === Restart fprintd after sleep ===
+  powerManagement.resumeCommands = ''
+    ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
+  '';
+
   # === Desktop Environment ===
   programs.hyprland.enable = true;
   
@@ -106,9 +114,14 @@ services.printing = {
     openFirewall = true;
   };
 
+# === Development Tools ===
+  programs.nix-ld.enable = true;
+
+
   # === System Packages ===
   environment.systemPackages = with pkgs; [
     git
     seahorse
+    uv
   ];
 }
