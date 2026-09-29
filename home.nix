@@ -83,7 +83,7 @@
       local mod         = "SUPER"
       local terminal    = "kitty"
       local fileManager = "thunar"
-      local menu        = "wofi --show drun"
+      local menu        = "dms ipc call spotlight toggle"
 
       -- Keyboard layouts: US and Czech QWERTY
       hl.config({
@@ -135,6 +135,16 @@
       hl.bind(mod .. " + F10", hl.dsp.exec_cmd("tlpctl power-saver"))
       hl.bind(mod .. " + F11", hl.dsp.exec_cmd("tlpctl balanced"))
       hl.bind(mod .. " + F12", hl.dsp.exec_cmd("tlpctl performance"))
+
+      -- DMS
+      hl.bind(mod .. " + V",     hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
+      hl.bind(mod .. " + N",     hl.dsp.exec_cmd("dms ipc call notifications toggle"))
+      hl.bind(mod .. " + comma", hl.dsp.exec_cmd("dms ipc call settings focusOrToggle"))
+
+      -- Screen capture
+      -- Screenshots
+      hl.bind("Print", hl.dsp.exec_cmd("dms screenshot"))
+      hl.bind(mod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
 
       -- Media & brightness
       hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
@@ -262,7 +272,7 @@
     zathura
     thunar
     imv
-    wofi
+    # wofi
     pavucontrol
     firefox
 
