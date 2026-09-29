@@ -238,13 +238,13 @@
     vimAlias = true;
   };
 
-  programs.git = {
-	enable = true;
-	userName = "Dominik Novotny";
-	userEmail = "medunadominik@gmail.com";
-	extraConfig = {
-		init.defaultBranch = "main";
-	};
+    programs.git = {
+    enable = true;
+    settings = {
+      user.name = "Dominik Novotny";
+      user.email = "medunadominik@gmail.com";
+      init.defaultBranch = "main";
+    };
   };
 
     programs.vscode = {
@@ -258,7 +258,7 @@
   # === User Packages ===
   home.packages = with pkgs; [
     # GUI Applications
-    libreoffice-fresh
+    libreoffice
     zathura
     thunar
     imv

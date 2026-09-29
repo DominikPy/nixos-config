@@ -8,6 +8,7 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+      home-manager.backupFileExtension = "bak";
     };
 
     # Community hardware quirks and optimizations
