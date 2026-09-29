@@ -285,6 +285,8 @@
   argvSettings."password-store" = "gnome-libsecret";
 };
 
+  programs.lazyvim.enable = true;
+
   # Required to let Home Manager manage itself
   programs.home-manager.enable = true;
 

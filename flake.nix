@@ -9,6 +9,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # LazyVim, kept in sync with the nixpkgs unstable branch
+    inputs.lazyvim.url = "github:pfassina/lazyvim-nix";
 
     # Community hardware quirks and optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
