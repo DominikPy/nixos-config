@@ -12,16 +12,15 @@
     # LazyVim, kept in sync with the nixpkgs unstable branch
     inputs.lazyvim.url = "github:pfassina/lazyvim-nix";
 
-    # Community hardware quirks and optimizations
+    # Community hardware optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, lazyvim, ... }@inputs: {
     nixosConfigurations = {
-      # Replace "thinkpad" with your actual hostname if you prefer
       thinkpad = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our modules
+        specialArgs = { inherit inputs; };
         modules = [
           ./hardware-configuration.nix
           ./configuration.nix
@@ -31,12 +30,11 @@
           nixos-hardware.nixosModules.common-cpu-intel
           nixos-hardware.nixosModules.common-pc-ssd
 
-          # Integrate Home Manager as a NixOS module
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # Replace "yourusername" with your actual user name
+            home-manager.sharedModules = [ lazyvim.homeManagerModules.default ];
             home-manager.users.dominik = import ./home.nix;
             home-manager.backupFileExtension = "bak";
           }
