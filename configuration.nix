@@ -125,5 +125,6 @@ services.printing = {
     seahorse
     uv
     fastfetch
+    papirus-icon-theme
   ];
 }
