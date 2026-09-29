@@ -8,7 +8,6 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
-      home-manager.backupFileExtension = "bak";
     };
 
     # Community hardware quirks and optimizations
@@ -37,6 +36,7 @@
             home-manager.useUserPackages = true;
             # Replace "yourusername" with your actual user name
             home-manager.users.dominik = import ./home.nix;
+            home-manager.backupFileExtension = "bak";
           }
         ];
       };
