@@ -20,13 +20,18 @@
 
 # === Wallpaper (Hyprpaper) ===
   services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload = [ "${./img/aqua.jpg}" ];
-      wallpaper = [ ",${./img/aqua.jpg}" ];
-      splash = false;
-    };
+  enable = true;
+  settings = {
+    splash = false;
+    wallpaper = [
+      {
+        monitor = "";
+        path = "${./img/aqua.jpg}";
+        fit_mode = "cover";
+      }
+    ];
   };
+};
 
 # === Lock Screen UI & Fingerprint ===
   programs.hyprlock = {

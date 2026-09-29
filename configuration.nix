@@ -56,6 +56,15 @@ security.polkit.extraConfig = ''
     });
   '';
 
+  services.gnome.gnome-keyring.enable = true;
+
+  security.pam.services.greetd.enableGnomeKeyring = true;
+
+  programs.vscode = {
+  enable = true;
+  argvSettings."password-store" = "gnome-libsecret";
+};
+
   # === Desktop Environment ===
   programs.hyprland.enable = true;
   
@@ -69,6 +78,9 @@ security.polkit.extraConfig = ''
     };
   };
 
+  services.desktopManager.cosmic.enable = true;
+  #services.displayManager.cosmic-greeter.enable = true;
+
   # Hint electron apps (like VS Code, Discord, etc.) to use Wayland natively
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -77,5 +89,6 @@ security.polkit.extraConfig = ''
   # === System Packages ===
   environment.systemPackages = with pkgs; [
     git
+    seahorse
   ];
 }
