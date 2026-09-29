@@ -303,8 +303,10 @@
     lazygit       # Git UI (LazyVim integrates this natively)
 
     # Communication
-    # Choose ONE of the following:
     discord      # The official client
     # vesktop    # The community Wayland-optimized client (Recommended for Hyprland)
+
+    # Development
+    texliveFull
   ];
 }
