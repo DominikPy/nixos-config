@@ -247,7 +247,10 @@
 	};
   };
 
-  programs.vscode.enable = true;
+    programs.vscode = {
+  enable = true;
+  argvSettings."password-store" = "gnome-libsecret";
+};
 
   # Required to let Home Manager manage itself
   programs.home-manager.enable = true;
