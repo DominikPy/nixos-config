@@ -145,7 +145,7 @@
       hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeating = true })
     '';
   };
-
+/*
   # === Status Bar (Waybar) ===
   programs.waybar = {
     enable = true;
@@ -221,7 +221,7 @@
       }
     '';
   };
-
+*/
   # === User Programs ===
   programs.kitty = {
     enable = true;

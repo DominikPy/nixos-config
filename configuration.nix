@@ -17,6 +17,12 @@
   services.tlp.pd.enable = true;
   services.thermald.enable = true; 
 
+# === TLP Battery Charge Thresholds ===
+  services.tlp.settings = {
+    START_CHARGE_THRESH_BAT0 = 75;
+    STOP_CHARGE_THRESH_BAT0 = 80;
+  };
+
   # === Audio (Pipewire) ===
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -79,6 +85,25 @@ security.polkit.extraConfig = ''
   # Hint electron apps (like VS Code, Discord, etc.) to use Wayland natively
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+  };
+
+  programs.dms-shell = {
+    enable = true;
+    systemd.enable = true;   # starts it automatically with your session
+  };
+
+
+# === Printers & Scanners ===
+services.printing = {
+    enable = true;
+    # drivers = with pkgs; [ hplip ];   # only if your printer needs one, see below
+  };
+
+  # Network printer discovery (needed for most Wi-Fi/Ethernet printers)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
   };
 
   # === System Packages ===
