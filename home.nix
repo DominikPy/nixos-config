@@ -160,6 +160,13 @@
           rounding = 12,
         },
       })
+
+    -- Miscellaneous
+      hl.config({
+        misc = {
+          focus_on_activate = true,
+        },
+      })
     '';
   };
 /*
