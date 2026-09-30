@@ -280,6 +280,10 @@
     };
   };
 
+    programs.thunar.enable = true;
+    services.gvfs.enable = true;
+    services.tumbler.enable = true;
+
    gtk = {
     enable = true;
     iconTheme = {
@@ -303,7 +307,6 @@
     # GUI Applications
     libreoffice
     zathura
-    thunar
     imv
     # wofi
     pavucontrol
