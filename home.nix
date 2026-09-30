@@ -280,6 +280,14 @@
     };
   };
 
+   gtk = {
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
+
     programs.vscode = {
   enable = true;
   argvSettings."password-store" = "gnome-libsecret";
