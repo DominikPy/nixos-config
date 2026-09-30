@@ -91,8 +91,9 @@ security.polkit.extraConfig = ''
 
   # === File Manager & Thumbnailing ===
   programs.thunar.enable = true;
-    services.gvfs.enable = true;
-    services.tumbler.enable = true;
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+  services.udisks2.enable = true;
 
   #services.desktopManager.cosmic.enable = true;
   #services.displayManager.cosmic-greeter.enable = true;
