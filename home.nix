@@ -95,7 +95,11 @@
           },
         },
       })
+      -- Laptop panel
+      hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0", scale = 1 })
 
+      -- Any other screen (projector): mirror the laptop
+      hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1, mirror = "eDP-1" })
       -- Core applications
       hl.bind(mod .. " + Return", hl.dsp.exec_cmd(terminal))
       hl.bind(mod .. " + E",      hl.dsp.exec_cmd(fileManager))
@@ -294,6 +298,14 @@
 };
 
   programs.lazyvim.enable = true;
+
+# USB Drive Management
+services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+    tray = "auto";
+  };
 
   # Required to let Home Manager manage itself
   programs.home-manager.enable = true;

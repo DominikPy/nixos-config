@@ -94,6 +94,8 @@ security.polkit.extraConfig = ''
   services.gvfs.enable = true;
   services.tumbler.enable = true;
   services.udisks2.enable = true;
+    programs.thunar.plugins = with pkgs; [ thunar-archive-plugin ];
+
 
   #services.desktopManager.cosmic.enable = true;
   #services.displayManager.cosmic-greeter.enable = true;
@@ -133,5 +135,6 @@ services.printing = {
     uv
     fastfetch
     papirus-icon-theme
+    xarchiver
   ];
 }
