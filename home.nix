@@ -108,7 +108,7 @@
           },
         },
       })
-      
+
       -- Laptop panel
       hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0", scale = 1 })
 
@@ -274,10 +274,53 @@
     '';
   };
 */
+
+# === Terminal shell ===
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+  };
+
+  # Prompt: git status, language versions, exit codes
+  programs.starship.enable = true;
+
+  # ls with colors, icons and git status
+  programs.eza = {
+    enable = true;
+    icons = "auto";
+    git = true;
+  };
+
+  # cat with syntax highlighting; "ansi" uses the terminal's own palette
+  programs.bat = {
+    enable = true;
+    config.theme = "ansi";
+  };
+
+  # Fuzzy finder: Ctrl+R history search, Ctrl+T file picker
+  programs.fzf.enable = true;
+
+  # Smarter cd: after visiting a folder once, `z projects` jumps there
+  programs.zoxide.enable = true;
+
+  # Terminal file manager with image previews (works well in kitty)
+  programs.yazi.enable = true;
+
+  # System monitor; the TTY theme uses your terminal's colors
+  programs.btop = {
+    enable = true;
+    settings.color_theme = "TTY";
+  };
+
   # === User Programs ===
   programs.kitty = {
     enable = true;
     themeFile = "Catppuccin-Mocha";
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 12;
+      package = pkgs.nerd-fonts.jetbrains-mono;
+    };
     settings = {
       window_padding_width = 4;
       background_opacity = "0.95";
