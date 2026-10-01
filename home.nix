@@ -96,15 +96,19 @@
           touchpad = {
             natural_scroll = true,
           },
-          general = {
+        },
+      })
+
+       hl.config({
+        general = {
           border_size = 2,
-                    col = {
+          col = {
             active_border   = { colors = { "rgba(cba6f7ff)", "rgba(f5c2e7ff)" }, angle = 45 },
             inactive_border = "rgba(45475aff)",
           },
         },
-        },
       })
+      
       -- Laptop panel
       hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0", scale = 1 })
 
