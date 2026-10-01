@@ -325,6 +325,7 @@
     };
   };
 
+home.pointerCursor.enable = true;
   home.pointerCursor = {
     name = "catppuccin-mocha-mauve-cursors";
     package = pkgs.catppuccin-cursors.mochaMauve;
