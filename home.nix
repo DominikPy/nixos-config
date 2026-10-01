@@ -98,9 +98,9 @@
           },
           general = {
           border_size = 2,
-          col = {
-            active_border   = "rgba(cba6f7ff)",   -- Catppuccin Mocha Mauve
-            inactive_border = "rgba(45475aff)",   -- Surface1, a subtle grey
+                    col = {
+            active_border   = { colors = { "rgba(cba6f7ff)", "rgba(f5c2e7ff)" }, angle = 45 },
+            inactive_border = "rgba(45475aff)",
           },
         },
         },
