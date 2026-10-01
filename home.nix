@@ -286,7 +286,6 @@
     settings = {
       modules = [
         "title" "separator" "os" "host" "kernel" "uptime"
-        # "packages" left out: counting the Nix store takes ~0.8 s
         "shell" "display" "wm" "terminal" "cpu" "gpu"
         "memory" "swap" "disk" "localip" "battery"
       ];
@@ -309,12 +308,28 @@
     };
   };
 
-   gtk = {
+  gtk = {
     enable = true;
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
+    font = {
+      name = "Inter";
+      package = pkgs.inter;
+      size = 11;
+    };
+  };
+
+  home.pointerCursor = {
+    name = "catppuccin-mocha-mauve-cursors";
+    package = pkgs.catppuccin-cursors.mochaMauve;
+    size = 24;
+    gtk.enable = true;
   };
 
     programs.vscode = {
