@@ -76,7 +76,7 @@ security.polkit.extraConfig = ''
     ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
   '';
 
-# === Automatic cleanup ===
+# === Automatic cleanup and firmware updates===
     programs.nh = {
     enable = true;
     flake = "/home/dominik/nixos-config";
@@ -88,6 +88,8 @@ security.polkit.extraConfig = ''
   };
 
   boot.loader.systemd-boot.configurationLimit = 5;
+
+  services.fwupd.enable = true;
 
   # === Desktop Environment ===
   programs.hyprland.enable = true;
@@ -146,7 +148,6 @@ services.printing = {
     git
     seahorse
     uv
-    fastfetch
     papirus-icon-theme
     xarchiver
   ];

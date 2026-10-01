@@ -281,6 +281,18 @@
     };
   };
 
+    programs.fastfetch = {
+    enable = true;
+    settings = {
+      modules = [
+        "title" "separator" "os" "host" "kernel" "uptime"
+        # "packages" left out: counting the Nix store takes ~0.8 s
+        "shell" "display" "wm" "terminal" "cpu" "gpu"
+        "memory" "swap" "disk" "localip" "battery"
+      ];
+    };
+  };
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
