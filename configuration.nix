@@ -105,7 +105,7 @@ security.polkit.extraConfig = ''
   };
 
 # === Kill User Processes on Logout ===
-    services.logind.killUserProcesses = true;
+    services.logind.settings.Login.KillUserProcesses = true;
 
   # === File Manager & Thumbnailing ===
   programs.thunar.enable = true;
