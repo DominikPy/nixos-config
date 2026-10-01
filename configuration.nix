@@ -76,6 +76,19 @@ security.polkit.extraConfig = ''
     ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
   '';
 
+# === Automatic cleanup ===
+    programs.nh = {
+    enable = true;
+    flake = "/home/dominik/nixos-config";
+    clean = {
+      enable = true;
+      dates = "daily";
+      extraArgs = "--keep 2 --keep-since 3d";
+    };
+  };
+
+  boot.loader.systemd-boot.configurationLimit = 5;
+
   # === Desktop Environment ===
   programs.hyprland.enable = true;
   

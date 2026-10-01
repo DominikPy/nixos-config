@@ -85,11 +85,14 @@
       local fileManager = "thunar"
       local menu        = "dms ipc call spotlight toggle"
 
+
       -- Keyboard layouts: US and Czech QWERTY
       hl.config({
         input = {
           kb_layout  = "us,cz",
           kb_variant = ",qwerty",
+          accel_profile = "flat",
+          sensitivity   = 0.2,
           touchpad = {
             natural_scroll = true,
           },
@@ -144,6 +147,16 @@
       hl.bind(mod .. " + V",     hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
       hl.bind(mod .. " + N",     hl.dsp.exec_cmd("dms ipc call notifications toggle"))
       hl.bind(mod .. " + comma", hl.dsp.exec_cmd("dms ipc call settings focusOrToggle"))
+
+      -- 3-finger swipe left/right: switch workspace (like GNOME)
+      hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+      -- 3-finger swipe up: open the launcher (stand-in for GNOME's overview)
+      hl.gesture({
+        fingers = 3,
+        direction = "up",
+        action = function() hl.exec_cmd("dms ipc call spotlight toggle") end,
+      })
 
       -- Screen capture
       -- Screenshots
