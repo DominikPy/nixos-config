@@ -96,6 +96,13 @@
           touchpad = {
             natural_scroll = true,
           },
+          general = {
+          border_size = 2,
+          col = {
+            active_border   = "rgba(cba6f7ff)",   -- Catppuccin Mocha Mauve
+            inactive_border = "rgba(45475aff)",   -- Surface1, a subtle grey
+          },
+        },
         },
       })
       -- Laptop panel

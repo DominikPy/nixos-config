@@ -104,6 +104,9 @@ security.polkit.extraConfig = ''
     };
   };
 
+=== Kill User Processes on Logout ===
+    services.logind.killUserProcesses = true;
+
   # === File Manager & Thumbnailing ===
   programs.thunar.enable = true;
   services.gvfs.enable = true;
