@@ -86,6 +86,13 @@
       local menu        = "dms ipc call spotlight toggle"
 
 
+-- Maximized window: no gaps except a small top gap under the bar
+      hl.workspace_rule({
+        workspace = "f[1]",
+        gaps_in   = 0,
+        gaps_out  = { top = 10, left = 0, right = 0, bottom = 0 },
+      })
+
       -- Keyboard layouts: US and Czech QWERTY
       hl.config({
         input = {
@@ -125,7 +132,8 @@
       -- Window management
       hl.bind(mod .. " + Q",         hl.dsp.window.close())
       hl.bind(mod .. " + SHIFT + M", hl.dsp.exit())
-      hl.bind(mod .. " + F",         hl.dsp.window.float({ action = "toggle" }))
+      hl.bind(mod .. " + F",         hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
+      hl.bind(mod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
       hl.bind(mod .. " + P",         hl.dsp.window.pseudo())
       hl.bind(mod .. " + J",         hl.dsp.layout("togglesplit"))
 
@@ -276,13 +284,37 @@
 */
 
 # === Terminal shell ===
-  programs.bash = {
+  programs.zsh = {
     enable = true;
     enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    history = {
+      size = 10000;
+      ignoreAllDups = true;
+    };
   };
 
-  # Prompt: git status, language versions, exit codes
-  programs.starship.enable = true;
+  # Catppuccin Mocha + Mauve for the tools that have a port
+  catppuccin = {
+    flavor = "mocha";
+    accent = "mauve";
+    kitty.enable = true;
+    autoEnable = false; 
+    bat.enable = true;
+    btop.enable = true;
+    fzf.enable = true;
+    yazi.enable = true;
+    eza.enable = true;
+    zsh-syntax-highlighting.enable = true;
+    lazygit.enable = true;
+  };
+
+  # Powerline-style prompt from the preset (see step 4)
+  programs.starship = {
+    enable = true;
+    settings = builtins.fromTOML (builtins.readFile ./starship.toml);
+  };
 
   # ls with colors, icons and git status
   programs.eza = {
@@ -392,7 +424,17 @@ home.pointerCursor.enable = true;
   argvSettings."password-store" = "gnome-libsecret";
 };
 
-  programs.lazyvim.enable = true;
+  programs.lazyvim = {
+    enable = true;
+    extras = {
+      lang.nix.enable = true;
+      lang.python = {
+        enable = true;
+        installDependencies = true;
+      };
+      lang.tex.enable = true;
+    };
+  };
 
 # USB Drive Management
 services.udiskie = {

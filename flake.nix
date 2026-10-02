@@ -14,9 +14,11 @@
 
     # Community hardware optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+        catppuccin.url = "github:catppuccin/nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, lazyvim, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, lazyvim, catppuccin }@inputs: {
     nixosConfigurations = {
       thinkpad = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -34,7 +36,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.sharedModules = [ lazyvim.homeManagerModules.default ];
+            home-manager.sharedModules = [
+              lazyvim.homeManagerModules.default
+              catppuccin.homeModules.catppuccin
+            ];
             home-manager.users.dominik = import ./home.nix;
             home-manager.backupFileExtension = "bak";
           }
