@@ -203,6 +203,13 @@
           focus_on_activate = true,
         },
       })
+      -- Startup apps
+      hl.on("hyprland.start", function()
+        hl.exec_cmd(terminal,  { workspace = "1 silent" })
+        hl.exec_cmd("discord", { workspace = "1 silent" })
+        hl.exec_cmd("firefox", { workspace = "2 silent" })
+        hl.exec_cmd("code",    { workspace = "3 silent" })
+      end)
     '';
   };
 /*
