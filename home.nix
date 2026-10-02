@@ -479,5 +479,6 @@ services.udiskie = {
 
     # Development
     texliveFull
+    cowsay
   ];
 }
