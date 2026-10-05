@@ -479,6 +479,8 @@ services.udiskie = {
 
     # Development
     texliveFull
+
+    # Sona
     cowsay
   ];
 }
