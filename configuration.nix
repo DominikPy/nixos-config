@@ -82,7 +82,7 @@ services.howdy = {
   settings = {
     core = {
       ignore_closed_lids = true;
-      detection_notice = true;
+      detection_notice = false;
     };
     video = {
       # Using the persistent by-id path prevents breakage across reboots
@@ -91,13 +91,8 @@ services.howdy = {
   };
 };
 
-# Howdy also requires Linux PAM integration to actually log you in.
-# This enables Howdy for sudo:
-security.pam.services.sudo.howdy = true;
-
-# You can also enable it for your display manager (e.g., GDM, SDDM) or lock screen
-# security.pam.services.login.howdy = true;
-# security.pam.services.sddm.howdy = true;
+security.pam.services.sudo.howdy.enable = true;
+security.pam.services.hyprlock.howdy.enable = true;
 
 # === Restart fprintd after sleep ===
   powerManagement.resumeCommands = ''
