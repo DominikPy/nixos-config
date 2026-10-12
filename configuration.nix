@@ -148,6 +148,8 @@ services.printing = {
 # === Development Tools ===
   programs.nix-ld.enable = true;
 
+  programs.steam.enable = true;
+
 
   # === System Packages ===
   environment.systemPackages = with pkgs; [
@@ -156,5 +158,6 @@ services.printing = {
     uv
     papirus-icon-theme
     xarchiver
+    howdy
   ];
 }

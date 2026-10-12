@@ -442,8 +442,6 @@ home.pointerCursor.enable = true;
     };
   };
 
-programs.steam.enable = true;
-
 # USB Drive Management
 services.udiskie = {
     enable = true;
