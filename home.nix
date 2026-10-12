@@ -466,7 +466,7 @@ services.udiskie = {
     # CLI Utilities
     wl-clipboard
     brightnessctl
-    ykman
+    
 
     # LazyVim Dependencies
     gcc           # Required for compiling tree-sitter syntax parsers
@@ -480,6 +480,7 @@ services.udiskie = {
 
     # Development
     texliveFull
+    yubioath-flutter
 
     # Sona
     cowsay
