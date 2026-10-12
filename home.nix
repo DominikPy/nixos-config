@@ -459,6 +459,7 @@ services.udiskie = {
     libreoffice
     zathura
     imv
+    steam
     # wofi
     pavucontrol
     firefox
