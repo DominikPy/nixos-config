@@ -113,6 +113,11 @@ security.pam.services.hyprlock.howdy.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
 
   services.fwupd.enable = true;
+  
+  security.pam.services.dankshell = {
+  howdy.enable = true;
+  fprintAuth = false; 
+};
 
   # === Desktop Environment ===
   programs.hyprland.enable = true;
