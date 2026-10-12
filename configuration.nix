@@ -74,6 +74,31 @@ security.polkit.extraConfig = ''
   systemd.user.services.dms.path = [ pkgs.fprintd ];
   systemd.user.services.dms.environment.QS_ICON_THEME = "Papirus-Dark";
 
+
+services.howdy = {
+  enable = true;
+  package = pkgs.howdy;
+  
+  settings = {
+    core = {
+      ignore_closed_lids = true;
+      detection_notice = true;
+    };
+    video = {
+      # Using the persistent by-id path prevents breakage across reboots
+      device_path = "/dev/v4l/by-id/usb-Generic_Integrated_Camera_200901010001-video-index0";
+    };
+  };
+};
+
+# Howdy also requires Linux PAM integration to actually log you in.
+# This enables Howdy for sudo:
+security.pam.services.sudo.howdy = true;
+
+# You can also enable it for your display manager (e.g., GDM, SDDM) or lock screen
+# security.pam.services.login.howdy = true;
+# security.pam.services.sddm.howdy = true;
+
 # === Restart fprintd after sleep ===
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
@@ -158,6 +183,5 @@ services.printing = {
     uv
     papirus-icon-theme
     xarchiver
-    howdy
   ];
 }
