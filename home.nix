@@ -442,13 +442,7 @@ home.pointerCursor.enable = true;
     };
   };
 
-  programs.steam = {
-    enable = true;
-    settings = {
-      runtime = "nixpkgs";
-      enableRuntime = true;
-    };
-  };
+programs.steam.enable = true
 
 # USB Drive Management
 services.udiskie = {
