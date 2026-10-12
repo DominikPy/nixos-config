@@ -74,26 +74,6 @@ security.polkit.extraConfig = ''
   systemd.user.services.dms.path = [ pkgs.fprintd ];
   systemd.user.services.dms.environment.QS_ICON_THEME = "Papirus-Dark";
 
-
-services.howdy = {
-  enable = true;
-  package = pkgs.howdy;
-  
-  settings = {
-    core = {
-      ignore_closed_lids = true;
-      detection_notice = false;
-    };
-    video = {
-      # Using the persistent by-id path prevents breakage across reboots
-      device_path = "/dev/v4l/by-id/usb-Generic_Integrated_Camera_200901010001-video-index0";
-    };
-  };
-};
-
-security.pam.services.sudo.howdy.enable = true;
-security.pam.services.hyprlock.howdy.enable = true;
-
 # === Restart fprintd after sleep ===
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
