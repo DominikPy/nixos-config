@@ -442,6 +442,14 @@ home.pointerCursor.enable = true;
     };
   };
 
+  programs.steam = {
+    enable = true;
+    settings = {
+      runtime = "nixpkgs";
+      enableRuntime = true;
+    };
+  };
+
 # USB Drive Management
 services.udiskie = {
     enable = true;
@@ -459,7 +467,6 @@ services.udiskie = {
     libreoffice
     zathura
     imv
-    steam
     # wofi
     pavucontrol
     firefox
