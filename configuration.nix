@@ -74,6 +74,8 @@ security.polkit.extraConfig = ''
   systemd.user.services.dms.path = [ pkgs.fprintd ];
   systemd.user.services.dms.environment.QS_ICON_THEME = "Papirus-Dark";
 
+  services.pcscd.enable = true
+
 # === Restart fprintd after sleep ===
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
