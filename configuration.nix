@@ -74,12 +74,32 @@ security.polkit.extraConfig = ''
   systemd.user.services.dms.path = [ pkgs.fprintd ];
   systemd.user.services.dms.environment.QS_ICON_THEME = "Papirus-Dark";
 
-  services.pcscd.enable = true
+  services.pcscd.enable = true;
 
 # === Restart fprintd after sleep ===
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl try-restart fprintd.service
   '';
+
+# === Explicitly provide the PAM service DMS expects ===
+security.pam.services.dankshell = {
+  text = ''
+    auth        include     login
+    account     include     login
+    session     include     login
+    password    include     login
+  '';
+};
+
+
+# Gives DMS enough time to acquire Wayland lock before power state changes
+services.logind = {
+  extraConfig = ''
+    InhibitDelayMaxSec=10
+    HandlePowerKey=suspend
+    HandleLidSwitch=suspend
+  '';
+};
 
 # === Automatic cleanup and firmware updates===
     programs.nh = {
@@ -91,7 +111,7 @@ security.polkit.extraConfig = ''
       extraArgs = "--keep 2 --keep-since 3d";
     };
   };
-
+  
   boot.loader.systemd-boot.configurationLimit = 5;
 
   services.fwupd.enable = true;
